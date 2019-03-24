@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
 
 void main() {
-  runApp(new MyAppThree());
+  //runApp(new MyAppSix());
+    runApp(new MaterialApp(
+      routes: <String, WidgetBuilder>{
+        "/PageTwo":(BuildContext context) => MyAppSixPageTwo(),
+        "/PageThree":(BuildContext context) => MyAppSixPageThree(),
+      },
+      home: MyAppSix(),
+    ));
 }
 
 class MyAppOne extends StatelessWidget {
@@ -16,11 +23,9 @@ class MyAppOne extends StatelessWidget {
             title: Text("Flutter Demo"),
           ),*/
           appBar: new AppBar(
+            backgroundColor: Colors.lightGreen,
             title: Row(
-              children: <Widget>[
-                Icon(Icons.home),
-                Text("Card List")
-              ],
+              children: <Widget>[Icon(Icons.home), Text("Card List")],
             ),
           ),
           body: Column(
@@ -28,35 +33,39 @@ class MyAppOne extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Card(
-                child: Row( children: <Widget>[
-                  Icon(Icons.access_time),
-                  Text("First Item")
-                ],),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.access_time),
+                    Text("First Item")
+                  ],
+                ),
               ),
               // refactoring
               myCustomCard("Second Item", Icons.add_a_photo),
               myCustomCard("Third Item", Icons.access_alarm),
               myCustomCard("Fourth Item", Icons.account_balance_wallet),
             ],
-          )
-      ),
+          )),
     );
   }
 }
 
-Card myCustomCard(String cardText, IconData cardIcon){
+Card myCustomCard(String cardText, IconData cardIcon) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(cardIcon, color: Colors.blueGrey,),
+          Icon(
+            cardIcon,
+            color: Colors.blueGrey,
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
-            child: Text(cardText,
-                style: TextStyle(fontSize: 22,
-                    color: Colors.red),
+            child: Text(
+              cardText,
+              style: TextStyle(fontSize: 22, color: Colors.red),
             ),
           ),
         ],
@@ -68,14 +77,13 @@ Card myCustomCard(String cardText, IconData cardIcon){
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-
- class MyAppTwo extends StatefulWidget{
+class MyAppTwo extends StatefulWidget {
   @override
   _MyState createState() => new _MyState();
- }
+}
 
- class _MyState extends State<MyAppTwo>{
-  List<String> langs = ["kotlin","dart","java","c++"];
+class _MyState extends State<MyAppTwo> {
+  List<String> langs = ["kotlin", "dart", "java", "c++"];
   var currentLang = "Choose Lang";
   var currentIndex = 0;
   var textSize = 15.0;
@@ -85,10 +93,10 @@ Card myCustomCard(String cardText, IconData cardIcon){
     setState(() {
       currentLang = langs[currentIndex];
     });
-    currentIndex = (currentIndex >= langs.length-1) ? 0 : ++currentIndex;
+    currentIndex = (currentIndex >= langs.length - 1) ? 0 : ++currentIndex;
   }
 
-  void incSize(){
+  void incSize() {
     setState(() {
       textSize++;
       myStyle = TextStyle(fontSize: textSize);
@@ -99,49 +107,63 @@ Card myCustomCard(String cardText, IconData cardIcon){
   Widget build(BuildContext context) {
     return new MaterialApp(
         home: Scaffold(
-          body: Center(
-            child: Column(
-             mainAxisAlignment: MainAxisAlignment.spaceAround,
-             children: <Widget>[
-              InkWell(        // InkWell used to add onTap property to icon
-                  onTap: incSize,
-                  child: Icon(Icons.add, size: 30, )),
-              Text(currentLang, style: myStyle,),
-              RaisedButton(onPressed: getLang ,
-                child: Text("Chang language", style: myStyle,),
-                color: Colors.green,)
-            ],),
-          ),
-          bottomNavigationBar: BottomAppBar(
-            color: Colors.grey,
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text("Copyright", style: myStyle,),
-                  Icon(Icons.copyright),
-                  Text("2018", style: myStyle)
-                ],
-              ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            InkWell(
+                // InkWell used to add onTap property to icon
+                onTap: incSize,
+                child: Icon(
+                  Icons.add,
+                  size: 30,
+                )),
+            Text(
+              currentLang,
+              style: myStyle,
             ),
+            RaisedButton(
+              onPressed: getLang,
+              child: Text(
+                "Chang language",
+                style: myStyle,
+              ),
+              color: Colors.green,
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.grey,
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(
+                "Copyright",
+                style: myStyle,
+              ),
+              Icon(Icons.copyright),
+              Text("2018", style: myStyle)
+            ],
           ),
-          appBar: AppBar(title: Text("Random App")),
-        )
-    );
+        ),
+      ),
+      appBar: AppBar(title: Text("Random App")),
+    ));
   }
- }
+}
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-class MyAppThree extends StatefulWidget{
+class MyAppThree extends StatefulWidget {
   @override
   _MyStateTow createState() => new _MyStateTow();
 }
 
-class _MyStateTow extends State<MyAppThree>{
-
-  String myDeviceInfo="";
+class _MyStateTow extends State<MyAppThree> {
+  String myDeviceInfo = "";
 
   getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -159,17 +181,245 @@ class _MyStateTow extends State<MyAppThree>{
   Widget build(BuildContext context) {
     return new MaterialApp(
         home: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.only(top: 80.0),
-            child: Center(
-              child: Column(children: <Widget>[
-                RaisedButton(onPressed: getDeviceInfo,
-                  child: Text("Get device info"),
-                ),
-                Text(myDeviceInfo)
-              ],),
+            body: Padding(
+      padding: const EdgeInsets.only(top: 80.0),
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              onPressed: getDeviceInfo,
+              child: Text("Get device info"),
             ),
-          )
+            Text(myDeviceInfo)
+          ],
+        ),
+      ),
+    )));
+  }
+}
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+class MyAppFour extends StatefulWidget {
+  @override
+  _MyStateFour createState() => new _MyStateFour();
+}
+
+class _MyStateFour extends State<MyAppFour> {
+  final userNameController = TextEditingController();
+  var userName = "";
+  String txt;
+
+  void onEditClick() {
+    setState(() {
+      userName = userNameController.text;
+    });
+  }
+
+  void onEditTextChanged(te) {
+    setState(() {
+      userName = userNameController.text;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+        home: Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          // use endDrawer instead of drawer in arabic mode
+          children: <Widget>[
+            DrawerHeader(
+              child: Text("Drawer Header"),
+            ),
+            ListTile(
+              onTap: () {},
+              title: Text("Item One"),
+              subtitle: Text("Item One subtitle"),
+              leading: Icon(Icons.info),
+              selected: true,
+            ),
+            ListTile(
+              onTap: () {},
+              title: Text("Item Two"),
+              trailing: Switch(value: true, onChanged: null),
+              leading: Icon(Icons.switch_camera),
+            ),
+            ListTile(
+              onTap: () {},
+              title: Text("Item Three"),
+              leading: Icon(
+                Icons.local_car_wash,
+                color: Colors.red,
+              ),
+            ),
+            AboutListTile(
+              child: Text("This is navigation drawer"),
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.greenAccent,
+      floatingActionButton: FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.delete),
+      ),
+      bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            icon: Icon(Icons.refresh), title: Text("Refresh")),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.add_a_photo), title: Text("Add")),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.favorite), title: Text("favorite")),
+      ]),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Card(
+              child: Container(
+                height: 150,
+                child: TextField(
+                  controller: TextEditingController(),
+                ),
+              ),
+            ),
+            Card(
+              child: Container(
+                height: 150,
+                child: FloatingActionButton(
+                    backgroundColor: Colors.red, onPressed: null),
+              ),
+            ),
+            Card(
+                child: Column(
+              children: <Widget>[
+                TextField(
+                  controller: userNameController,
+                  onChanged: (txt) {
+                    setState(() {
+                      userName = userNameController.text;
+                    });
+                  },
+                ),
+                InkWell(
+                  child: Icon(Icons.edit),
+                  onTap: onEditClick,
+                ),
+                Text("Hello ${userName}")
+              ],
+            )),
+            Card(
+              child: Container(
+                height: 150,
+              ),
+            ),
+          ],
+        ),
+      ),
     ));
   }
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+class MyAppFive extends StatefulWidget {
+  @override
+  _MyStateFive createState() => new _MyStateFive();
+}
+
+class _MyStateFive extends State<MyAppFive> {
+  var testTheme =
+      ThemeData(brightness: Brightness.dark, buttonColor: Colors.green);
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: Theme(
+        data: testTheme,
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            leading: Icon(Icons.home),
+            title: Text("Flutter Home"),
+            elevation: 8.0,
+            actions: <Widget>[Icon(Icons.add), Icon(Icons.search)],
+          ),
+          body: Column(
+            children: <Widget>[
+              Container(
+                child: Image.asset(
+                  "assets/pics/user.png",
+                  height: 100,
+                  width: 100,
+                ),
+              ),
+              Container(
+                child: Image.network(
+                  "http://quran.gplanet.tech/hafs/images/1.png",
+                  height: 300,
+                  width: 300,
+                ),
+              ),
+              RaisedButton(
+                onPressed: () {},
+                child: Text("Click"),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+class MyAppSix extends StatelessWidget {
+
+  void navigateToPageTwo(BuildContext context) {
+   Navigator.pushNamed(context, "/PageTwo");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        floatingActionButton: FloatingActionButton(
+            onPressed: () => navigateToPageTwo(context),
+            child: Icon(Icons.navigation))
+    );
+  }
+}
+
+class MyAppSixPageTwo extends StatelessWidget {
+
+  void navigateToPageTwo(BuildContext context) {
+    Navigator.pushNamed(context, "/PageThree");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new  Scaffold(
+          floatingActionButton: FloatingActionButton(
+              onPressed: () => navigateToPageTwo(context),
+              child: Icon(Icons.navigate_next)),
+        body: Center(child: Text("New Page two.."),),
+    );
+  }
+}
+
+class MyAppSixPageThree extends StatelessWidget {
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return  new Scaffold(
+        body: Center(child: Text("New Page three.."),),
+      );
+  }
+}
+
