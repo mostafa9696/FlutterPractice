@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
 
 void main() {
-  //runApp(new MyAppSix());
-    runApp(new MaterialApp(
+  runApp(new MyAppFive());
+    /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{
         "/PageTwo":(BuildContext context) => MyAppSixPageTwo(),
         "/PageThree":(BuildContext context) => MyAppSixPageThree(),
       },
       home: MyAppSix(),
     ));
+    */
 }
 
 class MyAppOne extends StatelessWidget {
@@ -334,20 +335,37 @@ class _MyStateFive extends State<MyAppFive> {
   var testTheme =
       ThemeData(brightness: Brightness.dark, buttonColor: Colors.green);
 
+  var snackbar = SnackBar(content:
+    Text("This is snackbar"),
+    duration: Duration(seconds: 1),
+    backgroundColor: Colors.lightGreen,
+    action: SnackBarAction(label: "OK", onPressed: (){}),
+  );
+
+  var scaffoldKey =  GlobalKey<ScaffoldState>();
+
+  getSnackbar() {
+    print("test");
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: Theme(
         data: testTheme,
         child: Scaffold(
+          key: scaffoldKey,
           appBar: AppBar(
             centerTitle: true,
             leading: Icon(Icons.home),
-            title: Text("Flutter Home"),
+            title: Text(" تدريب فلاتر", style: TextStyle(fontFamily: "Tajwal"),),
             elevation: 8.0,
             actions: <Widget>[Icon(Icons.add), Icon(Icons.search)],
           ),
-          body: Column(
+          body:
+          Builder(
+            builder: (scaffoldContext) => Column(
             children: <Widget>[
               Container(
                 child: Image.asset(
@@ -364,14 +382,23 @@ class _MyStateFive extends State<MyAppFive> {
                 ),
               ),
               RaisedButton(
-                onPressed: () {},
-                child: Text("Click"),
+                onPressed: (){
+                  Scaffold.of(scaffoldContext).showSnackBar(snackbar);
+                },
+                child: Text("show snackbar"),
+              ),
+              RaisedButton(
+                onPressed: getSnackbar,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: Colors.black, width: 4)
+                  ),
+                child: Text("show snackbar global key"),
               )
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }
 

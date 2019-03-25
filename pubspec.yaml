@@ -37,10 +37,15 @@ dev_dependencies:
 flutter:
   assets:
     - assets/pics/user.png
+  fonts:
+    - family: Tajwal
+      fonts:
+        - asset: assets/fonts/arabic_font.ttf
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
-  # the material Icons class.
+  # thTajwale material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
