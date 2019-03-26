@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
 
 void main() {
-  runApp(new MyAppFive());
+  runApp(new MyAppSeven());
     /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{
         "/PageTwo":(BuildContext context) => MyAppSixPageTwo(),
@@ -448,5 +448,54 @@ class MyAppSixPageThree extends StatelessWidget {
         body: Center(child: Text("New Page three.."),),
       );
   }
+}
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+class MyAppSeven extends StatefulWidget  {
+
+
+  @override
+  _MyStateSix createState() => new _MyStateSix();
+}
+
+class _MyStateSix extends State<MyAppSeven> with SingleTickerProviderStateMixin{
+
+  TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+        home: Scaffold(
+            bottomNavigationBar: Material(color: Colors.blue
+              ,child: TabBar(controller: tabController, tabs: [Icon(Icons.refresh, size: 25,), Icon(Icons.textsms), Icon(Icons.people_outline)]),),
+            appBar: AppBar(title: Text("Flutter practice")
+                    ,bottom: TabBar(controller: tabController,
+                  tabs: [Icon(Icons.add_a_photo), Icon(Icons.add_alarm), Icon(Icons.add_call)], indicatorColor: Colors.black45,)),
+            body: TabBarView(controller: tabController, children: [
+                Container(color: Colors.red),
+                Container(color: Colors.greenAccent),
+                Container(color: Colors.purple),
+              ],
+            )
+        ));
+  }
+
+
+
+
 }
 
