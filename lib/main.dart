@@ -478,6 +478,9 @@ class _MyStateSix extends State<MyAppSeven> with SingleTickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
+
+    var items = ["item 1","item 1","item 1","item 1","item 1","item 1","item 1","item 55","item 1","item 1","item 1","item 10"];
+
     return new MaterialApp(
         home: Scaffold(
             bottomNavigationBar: Material(color: Colors.blue
@@ -488,14 +491,21 @@ class _MyStateSix extends State<MyAppSeven> with SingleTickerProviderStateMixin{
             body: TabBarView(controller: tabController, children: [
                 Container(color: Colors.red),
                 Container(color: Colors.greenAccent),
-                Container(color: Colors.purple),
+                Container(color: Colors.purple
+                , child: ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index){
+                          return Card(child: Container(
+                            height: 100,
+                            child: Center(child:Text(items[index]) ,),
+                      ));
+                    })
+                  ),
               ],
             )
         ));
   }
-
-
-
+  
 
 }
 
