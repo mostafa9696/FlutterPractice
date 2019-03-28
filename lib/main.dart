@@ -5,7 +5,7 @@ import 'package:device_info/device_info.dart';
 
 void main() {
   runApp(new MyAppSeven());
-    /*runApp(new MaterialApp(
+  /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{
         "/PageTwo":(BuildContext context) => MyAppSixPageTwo(),
         "/PageThree":(BuildContext context) => MyAppSixPageThree(),
@@ -335,14 +335,14 @@ class _MyStateFive extends State<MyAppFive> {
   var testTheme =
       ThemeData(brightness: Brightness.dark, buttonColor: Colors.green);
 
-  var snackbar = SnackBar(content:
-    Text("This is snackbar"),
+  var snackbar = SnackBar(
+    content: Text("This is snackbar"),
     duration: Duration(seconds: 1),
     backgroundColor: Colors.lightGreen,
-    action: SnackBarAction(label: "OK", onPressed: (){}),
+    action: SnackBarAction(label: "OK", onPressed: () {}),
   );
 
-  var scaffoldKey =  GlobalKey<ScaffoldState>();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   getSnackbar() {
     print("test");
@@ -352,50 +352,52 @@ class _MyStateFive extends State<MyAppFive> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      home: Theme(
-        data: testTheme,
-        child: Scaffold(
-          key: scaffoldKey,
-          appBar: AppBar(
-            centerTitle: true,
-            leading: Icon(Icons.home),
-            title: Text(" تدريب فلاتر", style: TextStyle(fontFamily: "Tajwal"),),
-            elevation: 8.0,
-            actions: <Widget>[Icon(Icons.add), Icon(Icons.search)],
+        home: Theme(
+      data: testTheme,
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: AppBar(
+          centerTitle: true,
+          leading: Icon(Icons.home),
+          title: Text(
+            " تدريب فلاتر",
+            style: TextStyle(fontFamily: "Tajwal"),
           ),
-          body:
-          Builder(
-            builder: (scaffoldContext) => Column(
-            children: <Widget>[
-              Container(
-                child: Image.asset(
-                  "assets/pics/user.png",
-                  height: 100,
-                  width: 100,
-                ),
-              ),
-              Container(
-                child: Image.network(
-                  "http://quran.gplanet.tech/hafs/images/1.png",
-                  height: 300,
-                  width: 300,
-                ),
-              ),
-              RaisedButton(
-                onPressed: (){
-                  Scaffold.of(scaffoldContext).showSnackBar(snackbar);
-                },
-                child: Text("show snackbar"),
-              ),
-              RaisedButton(
-                onPressed: getSnackbar,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(color: Colors.black, width: 4)
+          elevation: 8.0,
+          actions: <Widget>[Icon(Icons.add), Icon(Icons.search)],
+        ),
+        body: Builder(
+          builder: (scaffoldContext) => Column(
+                children: <Widget>[
+                  Container(
+                    child: Image.asset(
+                      "assets/pics/user.png",
+                      height: 100,
+                      width: 100,
+                    ),
                   ),
-                child: Text("show snackbar global key"),
-              )
-            ],
-          ),
+                  Container(
+                    child: Image.network(
+                      "http://quran.gplanet.tech/hafs/images/1.png",
+                      height: 300,
+                      width: 300,
+                    ),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      Scaffold.of(scaffoldContext).showSnackBar(snackbar);
+                    },
+                    child: Text("show snackbar"),
+                  ),
+                  RaisedButton(
+                    onPressed: getSnackbar,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.black, width: 4)),
+                    child: Text("show snackbar global key"),
+                  )
+                ],
+              ),
         ),
       ),
     ));
@@ -406,9 +408,8 @@ class _MyStateFive extends State<MyAppFive> {
 ///////////////////////////////////////////
 
 class MyAppSix extends StatelessWidget {
-
   void navigateToPageTwo(BuildContext context) {
-   Navigator.pushNamed(context, "/PageTwo");
+    Navigator.pushNamed(context, "/PageTwo");
   }
 
   @override
@@ -416,51 +417,49 @@ class MyAppSix extends StatelessWidget {
     return new Scaffold(
         floatingActionButton: FloatingActionButton(
             onPressed: () => navigateToPageTwo(context),
-            child: Icon(Icons.navigation))
-    );
+            child: Icon(Icons.navigation)));
   }
 }
 
 class MyAppSixPageTwo extends StatelessWidget {
-
   void navigateToPageTwo(BuildContext context) {
     Navigator.pushNamed(context, "/PageThree");
   }
 
   @override
   Widget build(BuildContext context) {
-    return new  Scaffold(
-          floatingActionButton: FloatingActionButton(
-              onPressed: () => navigateToPageTwo(context),
-              child: Icon(Icons.navigate_next)),
-        body: Center(child: Text("New Page two.."),),
+    return new Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => navigateToPageTwo(context),
+          child: Icon(Icons.navigate_next)),
+      body: Center(
+        child: Text("New Page two.."),
+      ),
     );
   }
 }
 
 class MyAppSixPageThree extends StatelessWidget {
-
-
-
   @override
   Widget build(BuildContext context) {
-    return  new Scaffold(
-        body: Center(child: Text("New Page three.."),),
-      );
+    return new Scaffold(
+      body: Center(
+        child: Text("New Page three.."),
+      ),
+    );
   }
 }
 
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 
-class MyAppSeven extends StatefulWidget  {
-
-
+class MyAppSeven extends StatefulWidget {
   @override
   _MyStateSix createState() => new _MyStateSix();
 }
 
-class _MyStateSix extends State<MyAppSeven> with SingleTickerProviderStateMixin{
+class _MyStateSix extends State<MyAppSeven>
+    with SingleTickerProviderStateMixin {
 
   TabController tabController;
 
@@ -478,34 +477,151 @@ class _MyStateSix extends State<MyAppSeven> with SingleTickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
+    var items = [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ];
 
-    var items = ["item 1","item 1","item 1","item 1","item 1","item 1","item 1","item 55","item 1","item 1","item 1","item 10"];
+    var myList = List.generate(50, (i) => "Flutter $i");
+    var listViewControler = ScrollController();
+    Container getCircleAvatar() {
+      return Container(
+        height: 100,
+        child: CircleAvatar(
+          radius: 50,
+          backgroundColor: Colors.greenAccent,
+          child: Text("user 11"),
+          backgroundImage: NetworkImage(
+              "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"),
+        ),
+      );
+    }
 
     return new MaterialApp(
         home: Scaffold(
-            bottomNavigationBar: Material(color: Colors.blue
-              ,child: TabBar(controller: tabController, tabs: [Icon(Icons.refresh, size: 25,), Icon(Icons.textsms), Icon(Icons.people_outline)]),),
-            appBar: AppBar(title: Text("Flutter practice")
-                    ,bottom: TabBar(controller: tabController,
-                  tabs: [Icon(Icons.add_a_photo), Icon(Icons.add_alarm), Icon(Icons.add_call)], indicatorColor: Colors.black45,)),
-            body: TabBarView(controller: tabController, children: [
-                Container(color: Colors.red),
-                Container(color: Colors.greenAccent),
-                Container(color: Colors.purple
-                , child: ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (context, index){
-                          return Card(child: Container(
-                            height: 100,
-                            child: Center(child:Text(items[index]) ,),
-                      ));
-                    })
+            floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.arrow_upward),
+                onPressed: () {
+                  listViewControler.animateTo(0.0,
+                      duration: Duration(seconds: 2),
+                      curve: Curves.bounceInOut);
+                }),
+            bottomNavigationBar: Material(
+              color: Colors.blue,
+              child: TabBar(controller: tabController, tabs: [
+                Icon(
+                  Icons.refresh,
+                  size: 25,
+                ),
+                Icon(Icons.textsms),
+                Icon(Icons.people_outline)
+              ]),
+            ),
+            appBar: AppBar(
+                title: Text("Flutter practice"),
+                bottom: TabBar(
+                  controller: tabController,
+                  tabs: [
+                    Icon(Icons.add_a_photo),
+                    Icon(Icons.add_alarm),
+                    Icon(Icons.add_call)
+                  ],
+                  indicatorColor: Colors.black45,
+                )),
+            body: TabBarView(
+              controller: tabController,
+              children: [
+
+                Container(
+                  color: Colors.red,
+                  child: ListView(
+                    controller: listViewControler,
+                    children: myList.map((item) {
+                      return Dismissible(
+                          onDismissed: (direction) {
+                            setState(() {
+                              myList.removeAt(myList.indexOf(item));
+                            });
+                          },
+                          child: ListTile(
+                            leading: FlutterLogo(),
+                            title: Text(item),
+                          ),
+                          key: Key(item));
+                    }).toList(),
                   ),
+                ),
+
+
+                Container(
+                  color: Colors.greenAccent,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      getCircleAvatar(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      getCircleAvatar(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      getCircleAvatar(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      getCircleAvatar(),
+                      getCircleAvatar(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      getCircleAvatar(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      getCircleAvatar(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      getCircleAvatar()
+                    ],
+                  ),
+                ),
+
+
+                Container(
+                    color: Colors.purple,
+                    child: ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return Dismissible(
+                          background: Container(color: Colors.red, child: Icon(Icons.delete_forever),),
+                          onDismissed: (direction) {
+                            setState(() {
+                              items.removeAt(index);
+                            });
+                          },
+                            child : Card(
+                              child: Container(
+                            height: 100,
+                            child: Center(
+                              child: Text(items[index]),
+                            ),
+                          ))
+                          ,key: Key(items[index]),
+                          );
+                        })),
               ],
-            )
-        ));
+            )));
   }
-  
-
 }
-
