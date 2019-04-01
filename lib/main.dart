@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
 
 void main() {
-  runApp(new MyAppSeven());
+  runApp(new MyApp9());
   /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{
         "/PageTwo":(BuildContext context) => MyAppSixPageTwo(),
@@ -625,3 +625,130 @@ class _MyStateSix extends State<MyAppSeven>
             )));
   }
 }
+
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+
+class MyAppEight extends StatefulWidget {
+  @override
+  _MyStateSeven createState() => new _MyStateSeven();
+}
+
+class _MyStateSeven extends State<MyAppEight> {
+
+  String imageUrl = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50";
+  String imageUrl2 = "https://www.gstatic.com/webp/gallery/2.jpg";
+  String imageUrl3 = "https://www.gstatic.com/webp/gallery/5.jpg";
+
+  ListTile getListItem(BuildContext scaffoldContext, String url, String text){
+    return ListTile(
+      title: Text(text),
+      leading: InkWell(
+        onTap: (){
+          Navigator.push(scaffoldContext, MaterialPageRoute(builder: (BuildContext context){
+            return AnotherPage(imageUrl: url, tag: "test anim$text");
+          }));
+        },
+        child: Hero(
+          tag: "test anim$text",
+          child: Container(
+            width: 50,height: 50,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(url))
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+        home: Scaffold(
+          body:Builder(
+        builder: (scaffoldContext) =>  ListView(children: <Widget>[
+          getListItem(scaffoldContext, imageUrl, "mostafa 1"),
+          getListItem(scaffoldContext, imageUrl, "mostafa 2"),
+          getListItem(scaffoldContext, imageUrl2, "mostafa 3"),
+          getListItem(scaffoldContext, imageUrl, "mostafa 4"),
+          getListItem(scaffoldContext, imageUrl3, "mostafa 5"),
+          getListItem(scaffoldContext, imageUrl2, "mostafa 6"),
+
+        ],),
+
+        )));
+  }
+}
+
+class AnotherPage extends StatelessWidget{
+  final String imageUrl;
+  final String tag;
+
+  const AnotherPage({Key key, this.imageUrl, this.tag}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Hero(
+        tag:tag,
+        child: Center(
+          child: Container(
+            child: Image.network(imageUrl),),
+        ))
+    );
+  }
+
+}
+
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+
+class MyApp9 extends StatefulWidget {
+  @override
+  _MyState8 createState() => new _MyState8();
+}
+
+class _MyState8 extends State<MyApp9> {
+
+  double sliderValue = 1.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+        home: Scaffold(
+          backgroundColor: Colors.greenAccent,
+            appBar: AppBar(
+              title: Slider(
+                  min: 1,max: 4,
+                  activeColor: Colors.red, value:sliderValue,
+                  onChanged: (double value){
+                    setState(() {
+                      sliderValue = value;
+                    });
+                  }),),
+            body: GridView.count(crossAxisSpacing: 10,
+              crossAxisCount: sliderValue.toInt(), children: <Widget>[
+              Card(child: Center(child: Text("Data"),),),
+              Card(child: Center(child: Text("Data 1"),),),
+              Card(child: Center(child: Text("Data 2"),),),
+              Card(child: Center(child: Text("Data 3"),),),
+              Card(child: Center(child: Text("Data 4"),),),
+              Card(child: Center(child: Text("Data 5"),),),
+              Card(child: Center(child: Text("Data 6"),),),
+              Card(child: Center(child: Text("Data 7"),),),
+              Card(child: Center(child: Text("Data 8"),),),
+            ],)
+
+            ));
+  }
+}
+
+
