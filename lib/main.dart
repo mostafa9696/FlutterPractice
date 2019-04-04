@@ -736,6 +736,12 @@ class _MyState8 extends State<MyApp9> {
                   }),),
             body: GridView.count(crossAxisSpacing: 10,
               crossAxisCount: sliderValue.toInt(), children: <Widget>[
+                Container(color: Colors.deepPurpleAccent,height: 200.0, width: 400,child: Stack( children: <Widget>[
+                  Container(color: Colors.blue, height: 50.0, width: 100),
+                  Container(alignment: Alignment.bottomLeft, color: Colors.yellow, height: 100.0, width: 150),
+                  Center(child: Container(color: Colors.red, height: 50.0, width: 100)),
+                ],
+                ),),
               Card(child: Center(child: Text("Data"),),),
               Card(child: Center(child: Text("Data 1"),),),
               Card(child: Center(child: Text("Data 2"),),),
@@ -744,11 +750,76 @@ class _MyState8 extends State<MyApp9> {
               Card(child: Center(child: Text("Data 5"),),),
               Card(child: Center(child: Text("Data 6"),),),
               Card(child: Center(child: Text("Data 7"),),),
-              Card(child: Center(child: Text("Data 8"),),),
+              Card(child: Center(child: Text("Data 8"),),)
             ],)
 
             ));
   }
 }
 
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+
+class MyApp10 extends StatefulWidget {
+  @override
+  _MyState9 createState() => new _MyState9();
+}
+
+class _MyState9 extends State<MyApp10> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+        home: Scaffold(
+          body: CustomScrollView(
+            reverse: true,
+            slivers: <Widget>[
+              MyAppbar(),
+              MyAppbar(),
+              MyAppbar(),
+              MyAppbar(),
+              SliverFillRemaining(
+                child: Container(color: Colors.greenAccent,),
+              )
+
+              /*
+               *  for expanded appbar
+              SliverFixedExtentList(
+               itemExtent: 250.0,     // height of each item
+               delegate: SliverChildListDelegate([
+                Card(color: Colors.red,),
+                Card(color: Colors.greenAccent,),
+                Card(color: Colors.grey,),
+                Card(color: Colors.black38,),
+                Card(color: Colors.blue,),
+                Card(color: Colors.lightBlueAccent,),
+                Card(color: Colors.yellow,)
+               ]),
+              )*/
+            ],
+          ),
+
+
+        ));
+  }
+}
+
+class MyAppbar extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+        pinned: true,   // hide toolbar when scroll up
+        expandedHeight: 200.0,
+        flexibleSpace: FlexibleSpaceBar(
+        title: Text("Flutter demo"),
+    background: Image.network(
+    "https://www.gstatic.com/webp/gallery/5.jpg",
+    fit: BoxFit.cover,),
+    ));
+  }
+
+}
 
