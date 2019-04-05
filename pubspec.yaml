@@ -37,6 +37,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/pics/user.png
+    - assets/pics/login.png
+    - assets/pics/planet.png
   fonts:
     - family: Tajwal
       fonts:
