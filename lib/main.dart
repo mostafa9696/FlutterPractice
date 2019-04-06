@@ -1,14 +1,40 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_app/WebserviceDemo.dart';
 import 'MyAppTwo.dart';
 import 'LoginScreen.dart';
 import 'WeightPlanet.dart';
+import 'package:http/http.dart' as http;
 
 
-void main() {
-  runApp(new WeightPlanet());
+
+Future<List> getJson() async{
+  String apiUrl = "https://jsonplaceholder.typicode.com/posts";
+  http.Response response = await http.get(apiUrl);
+  return json.decode(response.body);
+}
+
+void showDialogMsg(BuildContext context, int position){
+  var dialog = AlertDialog(
+    title: Text("Clicked position $position"),
+    actions: <Widget>[
+      FlatButton(
+        child: Text("OK"),
+        onPressed: ()=> Navigator.of(context).pop(),
+      )
+    ],
+  );
+ showDialog(context: context, builder: (context){
+    return dialog;
+ });
+}
+
+void main() async{
+  List _data = await getJson();
+  //runApp(WebService());
   /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{
         "/PageTwo":(BuildContext context) => MyAppSixPageTwo(),
@@ -17,6 +43,28 @@ void main() {
       home: MyAppSix(),
     ));
     */
+
+  runApp(new MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(title: Text("Webservice-Demo")),
+      body: ListView.builder(
+          itemCount: _data.length,
+          itemBuilder: (BuildContext context, int position){
+            return Column(
+              children: <Widget>[
+                Divider(height: 3.5,),
+                ListTile(
+                  title: Text("Title ${_data[position]["title"]}", style: TextStyle(fontWeight: FontWeight.bold),),
+                  subtitle: Text(_data[position]["body"]),
+                  leading: CircleAvatar(backgroundColor: Colors.lightGreen
+                    ,child: Text(position.toString()),),
+                  onTap: () => showDialogMsg(context, position),
+                ),
+              ],
+            );
+          }),
+    ),
+  ));
 }
 
 class MyAppOne extends StatelessWidget {
@@ -680,8 +728,6 @@ class _MyState8 extends State<MyApp9> {
               Card(child: Center(child: Text("Data 4"),),),
               Card(child: Center(child: Text("Data 5"),),),
               Card(child: Center(child: Text("Data 6"),),),
-              Card(child: Center(child: Text("Data 7"),),),
-              Card(child: Center(child: Text("Data 8"),),)
             ],)
 
             ));
@@ -754,4 +800,10 @@ class MyAppbar extends StatelessWidget{
   }
 
 }
+
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+
 
