@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
-import 'package:flutter_app/WebserviceDemo.dart';
+import 'package:flutter_app/WeatherDemo.dart';
 import 'MyAppTwo.dart';
 import 'LoginScreen.dart';
 import 'WeightPlanet.dart';
@@ -33,8 +33,10 @@ void showDialogMsg(BuildContext context, int position){
 }
 
 void main() async{
-  List _data = await getJson();
-  //runApp(WebService());
+
+
+  runApp(WeatherDemo());
+
   /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{
         "/PageTwo":(BuildContext context) => MyAppSixPageTwo(),
@@ -44,6 +46,8 @@ void main() async{
     ));
     */
 
+  /*
+  List _data = await getJson();
   runApp(new MaterialApp(
     home: Scaffold(
       appBar: AppBar(title: Text("Webservice-Demo")),
@@ -64,7 +68,7 @@ void main() async{
             );
           }),
     ),
-  ));
+  ));*/
 }
 
 class MyAppOne extends StatelessWidget {
