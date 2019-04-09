@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_app/SqliteDemo.dart';
 import 'package:flutter_app/WeatherDemo.dart';
 import 'MyAppTwo.dart';
 import 'LoginScreen.dart';
@@ -35,7 +36,8 @@ void showDialogMsg(BuildContext context, int position){
 void main() async{
 
 
-  runApp(WeatherDemo());
+  runApp(SqliteDemo());
+
 
   /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{

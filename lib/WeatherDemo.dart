@@ -2,23 +2,34 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WeatherDemo extends StatefulWidget {
   @override
   _WeatherState createState() => new _WeatherState();
+
 }
 
 class _WeatherState extends State<WeatherDemo> {
 
   final String API_KEY = "5b5c71b7abbd78994077b261eea45fe9";
-  String inpCity;
+  String _inpCity;
 
+  @override
+  void initState(){
+    super.initState();
+    _loadSavedCity();
+    print("in initState");
+  }
 
-  void openCityScreen() {}
-
-  void showStaff() async {
-    Map data = await getWeather("cairo");
-    print(data.toString());
+  void _loadSavedCity() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      _inpCity = pref.getString("city") ?? "Cairo";
+      /**
+       * if pref.get city key is not exist so it will return cairo => same as if(pref.getString("city")!=null)
+       */
+    });
   }
 
   Future<Map> getWeather(String city) async {
@@ -38,14 +49,16 @@ class _WeatherState extends State<WeatherDemo> {
     }));
 
     if (results != null && results.containsKey('city')) {
-      inpCity = results['city'];
-      print(inpCity);
+      setState(() {
+        _inpCity = results['city'];
+      });
     }
   }
 
   Widget updateTempWidget(String city) {
     return FutureBuilder(
-      future: getWeather(city==null ? "london" : city),
+      //future: getWeather(city==null ? "london" : city),
+      future: getWeather(city),
       builder: (BuildContext context, AsyncSnapshot<Map> snapShot) {
         if (snapShot.hasData) {
           Map content = snapShot.data;
@@ -59,7 +72,15 @@ class _WeatherState extends State<WeatherDemo> {
                     content['main']['temp'].toString(),
                     style: getTempTextStyle(),
                   ),
-                )
+                  subtitle: ListTile(
+                    title: Text(
+                      "Min Temperature: ${content['main']['temp_min'].toString()}\n"
+                      "Max Temperature: ${content['main']['temp_max'].toString()}"
+                      ,style: TextStyle(color: Colors.white),
+
+                    ),
+                  ),
+                ),
               ],
             ),
           );
@@ -86,19 +107,11 @@ class _WeatherState extends State<WeatherDemo> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        home: Builder(
-            builder: (myContext) => Scaffold(
+        home: Scaffold(
                 appBar: AppBar(
                   title: Text("Weather Demo"),
-                  actions: <Widget>[
-                    IconButton(
-                        icon: Icon(Icons.location_city),
-                        onPressed: () {
-                          navigateToCityScreen(myContext);
-                        })
-                  ],
                 ),
-                body: Stack(
+                body: Builder(builder: (context2)=> Stack(
                   children: <Widget>[
                     Center(
                       child: Image.asset(
@@ -112,21 +125,40 @@ class _WeatherState extends State<WeatherDemo> {
                         alignment: Alignment.topRight,
                         margin: const EdgeInsets.fromLTRB(0.0, 10.0, 20.0, 0.0),
                         child: Text(
-                          inpCity == null ? "london" : inpCity,
+                          _inpCity,
                           style: getTextStyle(),
                         )),
                     Container(
                       alignment: Alignment.center,
                       child: Image.asset("assets/pics/light_rain.png"),
                     ),
-                    updateTempWidget(inpCity)
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                        child: FlatButton(
+                            onPressed: (){
+                              navigateToCityScreen(context2);
+                            },
+                            child: Text("Enter City"),
+                            color: Colors.blueAccent,
+                            textColor: Colors.white),
+                    ),
+                    updateTempWidget(_inpCity)
                   ],
                 ))));
   }
 }
 
 class CityScreen extends StatelessWidget {
-  var cityController = TextEditingController();
+  var _cityController = TextEditingController();
+
+  void saveAndNavigate(BuildContext context) async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String city = pref.getString("city") ?? "Cairo";
+    await pref.setString("city", _cityController.text);
+    Navigator.pop(context,{
+      'city': _cityController.text
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,17 +179,15 @@ class CityScreen extends StatelessWidget {
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
             child: TextField(
               decoration: InputDecoration(hintText: "Enter city"),
-              controller: cityController,
+              controller: _cityController,
               keyboardType: TextInputType.text,
             ),
           ),
           Container(
               margin: const EdgeInsets.fromLTRB(0, 70, 0, 0),
               child: FlatButton(
-                  onPressed: (){
-                    Navigator.pop(context,{
-                      'city': cityController.text
-                    });
+                  onPressed: () {
+                    saveAndNavigate(context);
                   },
                   child: Text("Get weather"),
                   color: Colors.blueAccent,
