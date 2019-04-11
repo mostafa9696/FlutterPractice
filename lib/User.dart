@@ -2,11 +2,16 @@
 class User{
   String _userName;
   String _password;
-  String _id;
+  int _id;
 
-  String get id => _id;
+  int get id => _id;
   String get password => _password;
   String get userName => _userName;
+
+
+  set userName(String value) {
+    _userName = value;
+  }
 
   User(this._userName, this._password);
 
@@ -30,6 +35,14 @@ class User{
       map["id"] = this._id;
     }
     return map;
+  }
+
+  set password(String value) {
+    _password = value;
+  }
+
+  set id(int value) {
+    _id = value;
   }
 
 }
