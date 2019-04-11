@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/DatabaseHelper.dart';
-import 'package:flutter_app/User.dart';
+import 'package:flutter_app/sqlite-demo/DatabaseHelper.dart';
+import 'package:flutter_app/sqlite-demo/User.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'dart:io';

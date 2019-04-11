@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_app/User.dart';
+import 'package:flutter_app/sqlite-demo/User.dart';
 import 'package:flutter_app/todo/NoDoItem.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqlite_api.dart';

@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
-import 'package:flutter_app/SqliteDemo.dart';
+import 'package:flutter_app/sqlite-demo/SqliteDemo.dart';
 import 'package:flutter_app/todo/Todo.dart';
-import 'package:flutter_app/WeatherDemo.dart';
+import 'package:flutter_app/webservice-demo/WeatherDemo.dart';
 import 'MyAppTwo.dart';
 import 'LoginScreen.dart';
-import 'WeightPlanet.dart';
+import 'package:flutter_app/webservice-demo/WeightPlanet.dart';
 import 'package:http/http.dart' as http;
 
 
