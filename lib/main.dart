@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_app/bloc-demo/MovieScreen.dart';
 import 'package:flutter_app/sqlite-demo/SqliteDemo.dart';
 import 'package:flutter_app/todo/Todo.dart';
 import 'package:flutter_app/webservice-demo/WeatherDemo.dart';
@@ -37,7 +38,7 @@ void showDialogMsg(BuildContext context, int position){
 void main()  {
 
 
-  runApp(TodoApp());
+  runApp(MovieScreen());
 
 
   /*runApp(new MaterialApp(
