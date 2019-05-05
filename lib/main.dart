@@ -4,44 +4,44 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_app/bloc-demo/MovieScreen.dart';
+import 'package:flutter_app/bloc_demo2/LoginScreen.dart';
 import 'package:flutter_app/inherited_widgets/ParentWidget.dart';
 import 'package:flutter_app/navigate_state_managment/mn.dart';
 import 'package:flutter_app/sqlite-demo/SqliteDemo.dart';
 import 'package:flutter_app/todo/Todo.dart';
 import 'package:flutter_app/webservice-demo/WeatherDemo.dart';
 import 'MyAppTwo.dart';
-import 'LoginScreen.dart';
 import 'package:flutter_app/webservice-demo/WeightPlanet.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_app/bloc_demo2/BlocProvider.dart';
 
-
-
-Future<List> getJson() async{
+Future<List> getJson() async {
   String apiUrl = "https://jsonplaceholder.typicode.com/posts";
   http.Response response = await http.get(apiUrl);
   return json.decode(response.body);
 }
 
-void showDialogMsg(BuildContext context, int position){
+void showDialogMsg(BuildContext context, int position) {
   var dialog = AlertDialog(
     title: Text("Clicked position $position"),
     actions: <Widget>[
       FlatButton(
         child: Text("OK"),
-        onPressed: ()=> Navigator.of(context).pop(),
+        onPressed: () => Navigator.of(context).pop(),
       )
     ],
   );
- showDialog(context: context, builder: (context){
-    return dialog;
- });
+  showDialog(
+      context: context,
+      builder: (context) {
+        return dialog;
+      });
 }
 
-void main()  {
+void main() {
 
-
-  runApp(ParentWidget());
-
+  // create provide widget which provide new bloc instance to be used for all child widgets
+  runApp(Provider(child: LoginScreen()));
 
   /*runApp(new MaterialApp(
       routes: <String, WidgetBuilder>{
@@ -136,7 +136,6 @@ Card myCustomCard(String cardText, IconData cardIcon) {
     ),
   );
 }
-
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -250,16 +249,17 @@ class _MyStateFour extends State<MyAppFour> {
         onPressed: null,
         child: Icon(Icons.delete),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon: Icon(Icons.refresh), title: Text("Refresh")),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.add_a_photo), title: Text("Add")),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.favorite), title: Text("favorite")),
-      ], onTap: (int pos) => {
-
-      },),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.refresh), title: Text("Refresh")),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_a_photo), title: Text("Add")),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), title: Text("favorite")),
+        ],
+        onTap: (int pos) => {},
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -349,9 +349,13 @@ class _MyStateFive extends State<MyAppFive> {
             style: TextStyle(fontFamily: "Tajwal"),
           ),
           elevation: 8.0,
-          actions: <Widget>[Icon(Icons.add),
-          Icon(Icons.search),
-          IconButton(icon: Icon(Icons.navigation), onPressed: ()=> debugPrint("Nav pressed!"),)
+          actions: <Widget>[
+            Icon(Icons.add),
+            Icon(Icons.search),
+            IconButton(
+              icon: Icon(Icons.navigation),
+              onPressed: () => debugPrint("Nav pressed!"),
+            )
           ],
         ),
         body: Builder(
@@ -448,7 +452,6 @@ class MyAppSeven extends StatefulWidget {
 
 class _MyStateSix extends State<MyAppSeven>
     with SingleTickerProviderStateMixin {
-
   TabController tabController;
 
   @override
@@ -463,23 +466,9 @@ class _MyStateSix extends State<MyAppSeven>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    var items = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12"
-    ];
+    var items = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
     var myList = List.generate(50, (i) => "Flutter $i");
     var listViewControler = ScrollController();
@@ -530,7 +519,6 @@ class _MyStateSix extends State<MyAppSeven>
             body: TabBarView(
               controller: tabController,
               children: [
-
                 Container(
                   color: Colors.red,
                   child: ListView(
@@ -550,8 +538,6 @@ class _MyStateSix extends State<MyAppSeven>
                     }).toList(),
                   ),
                 ),
-
-
                 Container(
                   color: Colors.greenAccent,
                   child: ListView(
@@ -586,28 +572,29 @@ class _MyStateSix extends State<MyAppSeven>
                     ],
                   ),
                 ),
-
-
                 Container(
                     color: Colors.purple,
                     child: ListView.builder(
                         itemCount: items.length,
                         itemBuilder: (context, index) {
                           return Dismissible(
-                          background: Container(color: Colors.red, child: Icon(Icons.delete_forever),),
-                          onDismissed: (direction) {
-                            setState(() {
-                              items.removeAt(index);
-                            });
-                          },
-                            child : Card(
-                              child: Container(
-                            height: 100,
-                            child: Center(
-                              child: Text(items[index]),
+                            background: Container(
+                              color: Colors.red,
+                              child: Icon(Icons.delete_forever),
                             ),
-                          ))
-                          ,key: Key(items[index]),
+                            onDismissed: (direction) {
+                              setState(() {
+                                items.removeAt(index);
+                              });
+                            },
+                            child: Card(
+                                child: Container(
+                              height: 100,
+                              child: Center(
+                                child: Text(items[index]),
+                              ),
+                            )),
+                            key: Key(items[index]),
                           );
                         })),
               ],
@@ -615,10 +602,8 @@ class _MyStateSix extends State<MyAppSeven>
   }
 }
 
-
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
-
 
 class MyAppEight extends StatefulWidget {
   @override
@@ -626,30 +611,30 @@ class MyAppEight extends StatefulWidget {
 }
 
 class _MyStateSeven extends State<MyAppEight> {
-
-  String imageUrl = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50";
+  String imageUrl =
+      "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50";
   String imageUrl2 = "https://www.gstatic.com/webp/gallery/2.jpg";
   String imageUrl3 = "https://www.gstatic.com/webp/gallery/5.jpg";
 
-  ListTile getListItem(BuildContext scaffoldContext, String url, String text){
+  ListTile getListItem(BuildContext scaffoldContext, String url, String text) {
     return ListTile(
       title: Text(text),
       leading: InkWell(
-        onTap: (){
-          Navigator.push(scaffoldContext, MaterialPageRoute(builder: (BuildContext context){
+        onTap: () {
+          Navigator.push(scaffoldContext,
+              MaterialPageRoute(builder: (BuildContext context) {
             return AnotherPage(imageUrl: url, tag: "test anim$text");
           }));
         },
         child: Hero(
           tag: "test anim$text",
           child: Container(
-            width: 50,height: 50,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(url))
-            ),
+                    fit: BoxFit.fill, image: NetworkImage(url))),
           ),
         ),
       ),
@@ -660,22 +645,22 @@ class _MyStateSeven extends State<MyAppEight> {
   Widget build(BuildContext context) {
     return new MaterialApp(
         home: Scaffold(
-          body:Builder(
-        builder: (scaffoldContext) =>  ListView(children: <Widget>[
-          getListItem(scaffoldContext, imageUrl, "mostafa 1"),
-          getListItem(scaffoldContext, imageUrl, "mostafa 2"),
-          getListItem(scaffoldContext, imageUrl2, "mostafa 3"),
-          getListItem(scaffoldContext, imageUrl, "mostafa 4"),
-          getListItem(scaffoldContext, imageUrl3, "mostafa 5"),
-          getListItem(scaffoldContext, imageUrl2, "mostafa 6"),
-
-        ],),
-
-        )));
+            body: Builder(
+      builder: (scaffoldContext) => ListView(
+            children: <Widget>[
+              getListItem(scaffoldContext, imageUrl, "mostafa 1"),
+              getListItem(scaffoldContext, imageUrl, "mostafa 2"),
+              getListItem(scaffoldContext, imageUrl2, "mostafa 3"),
+              getListItem(scaffoldContext, imageUrl, "mostafa 4"),
+              getListItem(scaffoldContext, imageUrl3, "mostafa 5"),
+              getListItem(scaffoldContext, imageUrl2, "mostafa 6"),
+            ],
+          ),
+    )));
   }
 }
 
-class AnotherPage extends StatelessWidget{
+class AnotherPage extends StatelessWidget {
   final String imageUrl;
   final String tag;
 
@@ -684,21 +669,18 @@ class AnotherPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Hero(
-        tag:tag,
-        child: Center(
-          child: Container(
-            child: Image.network(imageUrl),),
-        ))
-    );
+        body: Hero(
+            tag: tag,
+            child: Center(
+              child: Container(
+                child: Image.network(imageUrl),
+              ),
+            )));
   }
-
 }
 
-
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
-
 
 class MyApp9 extends StatefulWidget {
   @override
@@ -706,47 +688,89 @@ class MyApp9 extends StatefulWidget {
 }
 
 class _MyState8 extends State<MyApp9> {
-
   double sliderValue = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
         home: Scaffold(
-          backgroundColor: Colors.greenAccent,
+            backgroundColor: Colors.greenAccent,
             appBar: AppBar(
               title: Slider(
-                  min: 1,max: 4,
-                  activeColor: Colors.red, value:sliderValue,
-                  onChanged: (double value){
+                  min: 1,
+                  max: 4,
+                  activeColor: Colors.red,
+                  value: sliderValue,
+                  onChanged: (double value) {
                     setState(() {
                       sliderValue = value;
                     });
-                  }),),
-            body: GridView.count(crossAxisSpacing: 10,
-              crossAxisCount: sliderValue.toInt(), children: <Widget>[
-                Container(color: Colors.deepPurpleAccent,height: 200.0, width: 400,child: Stack( children: <Widget>[
-                  Container(color: Colors.blue, height: 50.0, width: 100),
-                  Container(alignment: Alignment.bottomLeft, color: Colors.yellow, height: 100.0, width: 150),
-                  Center(child: Container(color: Colors.red, height: 50.0, width: 100)),
-                ],
-                ),),
-              Card(child: Center(child: Text("Data"),),),
-              Card(child: Center(child: Text("Data 1"),),),
-              Card(child: Center(child: Text("Data 2"),),),
-              Card(child: Center(child: Text("Data 3"),),),
-              Card(child: Center(child: Text("Data 4"),),),
-              Card(child: Center(child: Text("Data 5"),),),
-              Card(child: Center(child: Text("Data 6"),),),
-            ],)
-
-            ));
+                  }),
+            ),
+            body: GridView.count(
+              crossAxisSpacing: 10,
+              crossAxisCount: sliderValue.toInt(),
+              children: <Widget>[
+                Container(
+                  color: Colors.deepPurpleAccent,
+                  height: 200.0,
+                  width: 400,
+                  child: Stack(
+                    children: <Widget>[
+                      Container(color: Colors.blue, height: 50.0, width: 100),
+                      Container(
+                          alignment: Alignment.bottomLeft,
+                          color: Colors.yellow,
+                          height: 100.0,
+                          width: 150),
+                      Center(
+                          child: Container(
+                              color: Colors.red, height: 50.0, width: 100)),
+                    ],
+                  ),
+                ),
+                Card(
+                  child: Center(
+                    child: Text("Data"),
+                  ),
+                ),
+                Card(
+                  child: Center(
+                    child: Text("Data 1"),
+                  ),
+                ),
+                Card(
+                  child: Center(
+                    child: Text("Data 2"),
+                  ),
+                ),
+                Card(
+                  child: Center(
+                    child: Text("Data 3"),
+                  ),
+                ),
+                Card(
+                  child: Center(
+                    child: Text("Data 4"),
+                  ),
+                ),
+                Card(
+                  child: Center(
+                    child: Text("Data 5"),
+                  ),
+                ),
+                Card(
+                  child: Center(
+                    child: Text("Data 6"),
+                  ),
+                ),
+              ],
+            )));
   }
 }
 
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
-
 
 class MyApp10 extends StatefulWidget {
   @override
@@ -754,25 +778,24 @@ class MyApp10 extends StatefulWidget {
 }
 
 class _MyState9 extends State<MyApp10> {
-
-
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-
         home: Scaffold(
-          body: CustomScrollView(
-            reverse: true,
-            slivers: <Widget>[
-              MyAppbar(),
-              MyAppbar(),
-              MyAppbar(),
-              MyAppbar(),
-              SliverFillRemaining(
-                child: Container(color: Colors.greenAccent,),
-              )
+      body: CustomScrollView(
+        reverse: true,
+        slivers: <Widget>[
+          MyAppbar(),
+          MyAppbar(),
+          MyAppbar(),
+          MyAppbar(),
+          SliverFillRemaining(
+            child: Container(
+              color: Colors.greenAccent,
+            ),
+          )
 
-              /*
+          /*
                *  for expanded appbar
               SliverFixedExtentList(
                itemExtent: 250.0,     // height of each item
@@ -786,34 +809,27 @@ class _MyState9 extends State<MyApp10> {
                 Card(color: Colors.yellow,)
                ]),
               )*/
-            ],
+        ],
+      ),
+    ));
+  }
+}
+
+class MyAppbar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+        pinned: true, // hide toolbar when scroll up
+        expandedHeight: 200.0,
+        flexibleSpace: FlexibleSpaceBar(
+          title: Text("Flutter demo"),
+          background: Image.network(
+            "https://www.gstatic.com/webp/gallery/5.jpg",
+            fit: BoxFit.cover,
           ),
-
-
         ));
   }
 }
 
-class MyAppbar extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverAppBar(
-        pinned: true,   // hide toolbar when scroll up
-        expandedHeight: 200.0,
-        flexibleSpace: FlexibleSpaceBar(
-        title: Text("Flutter demo"),
-    background: Image.network(
-    "https://www.gstatic.com/webp/gallery/5.jpg",
-    fit: BoxFit.cover,),
-    ));
-  }
-
-}
-
-
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
-
-
-
